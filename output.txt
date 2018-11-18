@@ -1,0 +1,6 @@
+P is not a formula
+(qvr) is not a formula
+pvr is not a formula
+--p is a negation
+s is not a formula
+ is not a formula

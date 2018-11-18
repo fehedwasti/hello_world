@@ -4,17 +4,7 @@
 
 int Fsize=50;
 int inputs=6;
-int proposition = 0;
-int invalid = 0;
-int negation = 0;
-int binary = 0;
-int brackets = 0;
-int isFormula = 0;
 
-char x[100];
-char y[100];
-int indx = 0;
-int indy = 0;
 
 
 int i;
@@ -31,10 +21,7 @@ Your program should read 6 formulas in a file called "input.txt" and output in t
 
 int prop(char *g){
   if(*g == 'p' || *g == 'q' || *g == 'r'){
-    if (strlen(g)==1)
       return 1;
-    else
-      return 0;
   }
   else
     return 0;
@@ -47,32 +34,51 @@ int bfunction(char *g){
 }
 
 int checkformula(char *g){
-  if (prop(g)){
-    x[indx] = *g;
+  printf("after parse: %s", g);
+  int brackets = 0;
+  char x[100];
+  char y[100];
+  int indx = 0;
+  int indy = 0;
+
+  if (prop(g) && strlen(g) == 1){
+    return 1;
   }
 
-  else if(*g == '-' && bfunction(g+1)){
+  if (prop(g) && prop(g+1)){
     return 0;
   }
-  else if(*g == '-' && !bfunction(g+1)){
-    g++;
+
+  else if (*g == '-'){
+      while (*g == '-'){
+        g++;
+      }
+      if (bfunction(g)){
+        return 0;
+      }
   }
-  if (*g == '('){
-    brackets += 1;
-    x[indx] = *g;
-    indx++; g++;
-    while (brackets != 0){
-      if (*g == '('){
-        brackets += 1;
-      }
-      if (*g == ')'){
-        brackets -= 1;
-      }
+
+  if (*g == '(' || prop(g)){
+    if (prop(g)){
+      x[indx] = *g; g++;indx++;
+    }
+    else if (*g == '('){
+      brackets += 1;
       x[indx] = *g;
       indx++; g++;
-
+      while (brackets != 0){
+        if (*g == '('){
+          brackets += 1;
+        }
+        if (*g == ')'){
+          brackets -= 1;
+        }
+        x[indx] = *g;
+        g++;
+      }
     }
-    for (int i = 0; i < indx; i++){
+
+    for (int i = 0; i <= indx; i++){
       printf("%c", x[i]);
     }
     printf("\n");
@@ -87,68 +93,82 @@ int checkformula(char *g){
       }
       else if (*g == '-' && !bfunction(g+1)){
         g++;
+      }
+      if (prop(g) && *(g+1)==')'){
+        y[indy] = *g;
+      }
+      else{
         while (*g != '\0'){
 
           y[indy] = *g;
           g++; indy++;
         }
         y[indy-1] = '\0';
-        for (int j = 0; j < indy; j++){
-          printf("%c", y[j]);
-        }
-        printf("\n");
       }
+
+      for (int j = 0; j < indy; j++){
+        printf("%c", y[j]);
+      }
+      printf("\n");
+    }
 
     }
 
+  if (indx > 0 && indy >0){
+    printf("%c and %c \n\n", x[0],y[0]);
+    char *x1, *y1;
+    x1 = &x[0];
+    y1 = &y[0];
+    return (checkformula(x1) && checkformula(y1));
   }
-
-
-
 }
 
 
-int parse(char *g){
 
+int parse(char *g){
+  printf("before parse: %s\n", g);
+  int isFormula;
+  int negation = 0;
   if (*g == '-'){ //negation
+    while (*g == '-')
+      g++;
     printf("negation detected\n");
     negation = 1;
-    g++;
+    printf("%c\n\n", *g);
   }
+
 
   if (prop(g) && strlen(g) == 1){ //proposition
+
     printf("proposition detected\n");
     if (negation){
-      negation = 0;
       return 2;
     }
-    else if (strlen(g) == 1 && prop(g))
+    else if (strlen(g) == 1 && prop(g)){
       return 1;
+    }
   }
 
-  if (*g == '('){
-    g++;
+  else if (*g == '('){
+    printf("%lu\n", strlen(g));
 
-    isFormula = checkformula(g);
-
-    printf("in a bracket\n");
+      isFormula = checkformula(g);
 
     if (isFormula && negation){
-        negation = 0;
         return 2;
     }
     else if(isFormula){
       return 3;
     }
+}
 
 
   else{
-    negation = 0;
+
     return 0;
   }
 
 
-  }
 }
 
 int main()
