@@ -5,7 +5,7 @@
 int Fsize=50;
 int inputs=6;
 
-
+//issue lies with forming x and y.
 
 int i;
 int j;
@@ -41,11 +41,19 @@ int checkformula(char *g){
   int indx = 0;
   int indy = 0;
 
-  if (prop(g) && strlen(g) == 1){
+  if (*g == '('){
+    g++; // removes first bracket. eg (p^r) -> p^r)
+  }
+  else if(prop(g) && strlen(g) == 1){ // eg checkformula on p
     return 1;
   }
+  /*while (g != end){
+    g++;
+    printf("%c", *g);
+  }*/
 
   if (prop(g) && prop(g+1)){
+    //eg (pq)
     return 0;
   }
 
@@ -53,47 +61,52 @@ int checkformula(char *g){
       while (*g == '-'){
         g++;
       }
-      if (bfunction(g)){
+      if (bfunction(g) || *g == ')'){
         return 0;
       }
   }
 
   if (*g == '(' || prop(g)){
-    if (prop(g)){
-      x[indx] = *g; g++;indx++;
+    if (prop(g) && bfunction(g+1)){
+      x[indx] = *g; g++;
     }
     else if (*g == '('){
+
       brackets += 1;
       x[indx] = *g;
-      indx++; g++;
       while (brackets != 0){
+        g++;
+        indx++;
         if (*g == '('){
           brackets += 1;
         }
-        if (*g == ')'){
+        else if (*g == ')'){
           brackets -= 1;
         }
         x[indx] = *g;
-        g++;
       }
+      g++;
     }
-
+    printf("\nx is ");
     for (int i = 0; i <= indx; i++){
       printf("%c", x[i]);
     }
-    printf("\n");
 
     if (!bfunction(g)){
       return 0;
     }
     else{
       g++;
-      if(*g == '-' && bfunction(g+1)){
-        return 0;
+
+      if (*g == '-'){
+        while (*g == '-'){
+          g++;
+        }
+        if (*g == ')' || bfunction(g)){
+          return 0;
+        }
       }
-      else if (*g == '-' && !bfunction(g+1)){
-        g++;
-      }
+
       if (prop(g) && *(g+1)==')'){
         y[indy] = *g;
       }
@@ -105,8 +118,8 @@ int checkformula(char *g){
         }
         y[indy-1] = '\0';
       }
-
-      for (int j = 0; j < indy; j++){
+      printf("\ny is ");
+      for (int j = 0; j <= indy; j++){
         printf("%c", y[j]);
       }
       printf("\n");
@@ -114,13 +127,20 @@ int checkformula(char *g){
 
     }
 
-  if (indx > 0 && indy >0){
-    printf("%c and %c \n\n", x[0],y[0]);
     char *x1, *y1;
+    printf("indx: %i, indy: %i\n", indx, indy);
     x1 = &x[0];
     y1 = &y[0];
+    if (!indx && !indy){
+      return 1;
+    }
+    else if (!indx && indy != 0){
+      return (checkformula(y1));
+    }
+    else if (indx != 0 && !indy){
+      return (checkformula(x1));
+    }
     return (checkformula(x1) && checkformula(y1));
-  }
 }
 
 
@@ -129,6 +149,8 @@ int parse(char *g){
   printf("before parse: %s\n", g);
   int isFormula;
   int negation = 0;
+
+  //first check for negation and remove - signs from string.
   if (*g == '-'){ //negation
     while (*g == '-')
       g++;
@@ -153,6 +175,7 @@ int parse(char *g){
     printf("%lu\n", strlen(g));
 
       isFormula = checkformula(g);
+      printf("result = %i", isFormula);
 
     if (isFormula && negation){
         return 2;
@@ -160,7 +183,10 @@ int parse(char *g){
     else if(isFormula){
       return 3;
     }
-}
+    else{
+      return 0;
+    }
+  }
 
 
   else{

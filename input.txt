@@ -1,1 +1,1 @@
-P (qvr) pvr --p s
+(pvr) -(pv(q^r)) ((pvq)>r) ((pvq)>(qvr)) -(((-p^q)vr)v(-q^r))

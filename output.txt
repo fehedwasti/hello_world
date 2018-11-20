@@ -1,6 +1,6 @@
-P is not a formula
-(qvr) is not a formula
-pvr is not a formula
---p is a negation
-s is not a formula
+(pvr) is a binary formula
+-(pv(q^r)) is a negation
+((pvq)>r) is a binary formula
+((pvq)>(qvr)) is a binary formula
+-(((-p^q)vr)v(-q^r)) is a negation
  is not a formula
