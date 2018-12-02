@@ -47,10 +47,6 @@ int checkformula(char *g){
   else if(prop(g) && strlen(g) == 1){ // eg checkformula on p
     return 1;
   }
-  /*while (g != end){
-    g++;
-    printf("%c", *g);
-  }*/
 
   if (prop(g) && prop(g+1)){
     //eg (pq)
@@ -96,6 +92,9 @@ int checkformula(char *g){
       return 0;
     }
     else{
+      if (bfunction(g+1)){
+        return 0;
+      }
       g++;
 
       if (*g == '-'){
