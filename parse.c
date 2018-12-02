@@ -34,7 +34,6 @@ int bfunction(char *g){
 }
 
 int checkformula(char *g){
-  printf("after parse: %s", g);
   int brackets = 0;
   char x[100];
   char y[100];
@@ -83,10 +82,6 @@ int checkformula(char *g){
       }
       g++;
     }
-    printf("\nx is ");
-    for (int i = 0; i <= indx; i++){
-      printf("%c", x[i]);
-    }
 
     if (!bfunction(g)){
       return 0;
@@ -117,17 +112,11 @@ int checkformula(char *g){
         }
         y[indy-1] = '\0';
       }
-      printf("\ny is ");
-      for (int j = 0; j <= indy; j++){
-        printf("%c", y[j]);
-      }
-      printf("\n");
     }
 
     }
 
     char *x1, *y1;
-    printf("indx: %i, indy: %i\n", indx, indy);
     x1 = &x[0];
     y1 = &y[0];
     if (!indx && !indy){
@@ -145,7 +134,6 @@ int checkformula(char *g){
 
 
 int parse(char *g){
-  printf("before parse: %s\n", g);
   int isFormula;
   int negation = 0;
 
@@ -153,15 +141,11 @@ int parse(char *g){
   if (*g == '-'){ //negation
     while (*g == '-')
       g++;
-    printf("negation detected\n");
     negation = 1;
-    printf("%c\n\n", *g);
   }
 
 
   if (prop(g) && strlen(g) == 1){ //proposition
-
-    printf("proposition detected\n");
     if (negation){
       return 2;
     }
@@ -171,10 +155,7 @@ int parse(char *g){
   }
 
   else if (*g == '('){
-    printf("%lu\n", strlen(g));
-
-      isFormula = checkformula(g);
-      printf("result = %i", isFormula);
+    isFormula = checkformula(g);
 
     if (isFormula && negation){
         return 2;

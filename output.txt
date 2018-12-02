@@ -1,4 +1,4 @@
----(p^-p) is a negation
+(p^-p) is a binary formula
 (p^((q>-p)^(-q>-p))) is a binary formula
 -((-qv-p)>(-q^-p)) is a negation
 ((qvp)>(q^p)) is a binary formula
