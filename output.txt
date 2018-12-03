@@ -1,6 +1,6 @@
-(p^-p) is a binary formula
+---(p^-p) is a negation
 (p^((q>-p)^(-q>-p))) is a binary formula
 -((-qv-p)>(-q^-p)) is a negation
 ((qvp)>(q^p)) is a binary formula
 -((p>(q^r))>((p>q)^(p>r))) is a negation
--((p>(qv))>((p>q)v(p>r))) is a negation
+-((p>(qv))>((p>q)v(p>r))) is not a formula

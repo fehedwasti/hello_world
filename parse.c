@@ -41,6 +41,9 @@ int checkformula(char *g){
   int indy = 0;
 
   if (*g == '('){
+    if (*(g+1) == '\0'){
+      return 0;
+    }
     g++; // removes first bracket. eg (p^r) -> p^r)
   }
   else if(prop(g) && strlen(g) == 1){ // eg checkformula on p
@@ -78,6 +81,9 @@ int checkformula(char *g){
         else if (*g == ')'){
           brackets -= 1;
         }
+        else if (*g == '\0'){
+          return 0;
+        }
         x[indx] = *g;
       }
       g++;
@@ -87,7 +93,7 @@ int checkformula(char *g){
       return 0;
     }
     else{
-      if (bfunction(g+1)){
+      if (bfunction(g+1) || *(g+1) == ')'){
         return 0;
       }
       g++;
