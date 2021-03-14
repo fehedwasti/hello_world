@@ -1,6 +1,2 @@
----(p^-p)
-(p^((q>-p)^(-q>-p)))
--((-qv-p)>(-q^-p))
-((qvp)>(q^p))
--((p>(q^r))>((p>q)^(p>r)))
--((p>(qv))>((p>q)v(p>r)))
+hello aisyah, this is me saying
+hi.
